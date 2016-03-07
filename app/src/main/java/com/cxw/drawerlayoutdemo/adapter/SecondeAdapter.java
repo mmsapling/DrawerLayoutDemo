@@ -11,23 +11,17 @@ import com.cxw.drawerlayoutdemo.R;
 import com.cxw.drawerlayoutdemo.bean.TCity;
 import com.cxw.drawerlayoutdemo.volly.base.AbstractBaseAdapter;
 
-
 import java.util.List;
 
 /**
- * Created by Administrator on 2016/3/4 0004.
  */
-public class FirstAdapter extends AbstractBaseAdapter<TCity> {
-    private OnChangeListener mOnChangerListener;
-    private int mItemPosition = 0; //默认选中的位置为0
-    public FirstAdapter(Context context, List<TCity> list) {
+public class SecondeAdapter extends AbstractBaseAdapter<TCity> {
+    private int mSelectItem = 0;
+    public SecondeAdapter(Context context, List<TCity> list) {
         super(context, list);
     }
-    public void setSelectItem(int itemPosition){
-        mItemPosition = itemPosition;
-    }
     @Override
-    public View getView(final int position, View convertView, ViewGroup parent) {
+    public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder = null;
         if (convertView == null) {
             holder = new ViewHolder();
@@ -40,22 +34,15 @@ public class FirstAdapter extends AbstractBaseAdapter<TCity> {
         }
         final TCity item = getItem(position);
         holder.mTvCityName.setText(item.city);
-        //如果是第一个位置设置为字体颜色为红色
-        if(position == mItemPosition){
+        if(position == mSelectItem){
             holder.mTvCityName.setTextColor(Color.RED);
         }else{
             holder.mTvCityName.setTextColor(Color.BLACK);
         }
-        final ViewHolder finalHolder = holder;
         holder.mContainer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mOnChangerListener != null) {
-                    mOnChangerListener.onChange(item.cityId, item.city);
-                }
-                mItemPosition = position;
-                finalHolder.mTvCityName.setTextColor(Color.RED);
-                notifyDataSetChanged();
+
             }
 
         });
@@ -65,12 +52,5 @@ public class FirstAdapter extends AbstractBaseAdapter<TCity> {
     private class ViewHolder{
         LinearLayout mContainer;
         TextView     mTvCityName;
-    }
-    public void setOnChangeListener(OnChangeListener listener){
-        this.mOnChangerListener = listener;
-    }
-    public interface OnChangeListener{
-        void onChange(String id,String city);
-
     }
 }
