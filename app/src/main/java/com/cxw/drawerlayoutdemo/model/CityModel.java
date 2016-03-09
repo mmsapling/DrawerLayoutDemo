@@ -1,7 +1,9 @@
 package com.cxw.drawerlayoutdemo.model;
 
 import android.content.Context;
+import android.util.Log;
 
+import com.cxw.drawerlayoutdemo.bean.Bean;
 import com.cxw.drawerlayoutdemo.bean.TCity;
 import com.cxw.drawerlayoutdemo.conf.Constants;
 import com.cxw.drawerlayoutdemo.volly.DCallResult;
@@ -11,6 +13,7 @@ import com.cxw.drawerlayoutdemo.volly.DVolleyConstans;
 import com.cxw.drawerlayoutdemo.volly.DVolleyModel;
 import com.cxw.drawerlayoutdemo.volly.bean.ReturnBean;
 import com.cxw.drawerlayoutdemo.volly.util.JSONUtil;
+import com.google.gson.Gson;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -32,7 +35,8 @@ public class CityModel
     }
 
     private DResponseService cityResultResponse;
-    private DResponseService  cityResultChangeResponse;
+    private DResponseService cityResultChangeResponse;
+
     public void findCityList(String id) {
         Map<String, String> params = this.newParams();
         if (cityResultResponse == null) {
@@ -62,21 +66,24 @@ public class CityModel
         protected void myOnResponse(DCallResult callResult)
                 throws Exception
         {
-            JSONArray contentArray = callResult.getContentArray();
-            List<TCity> list      = new ArrayList<TCity>();
-            if(contentArray.length() != 0 && !contentArray.equals("")){
-                for(int i = 0; i < contentArray.length(); i++){
-                    JSONObject jsonObject = contentArray.getJSONObject(i);
-                    TCity city = new TCity();
-                    city.city = jsonObject.getString("name");
-                    city.cityId = jsonObject.getString("id");
-                    list.add(city);
-                }
-            }
+            Gson gson = new Gson();
+            
             ReturnBean bean = new ReturnBean();
+            Bean       bean1 = gson.fromJson(callResult.getResponse()
+                                                       .toString(), Bean.class);
+            List<TCity> list = new ArrayList<>();
+            for(int i = 0; i < bean1.content.size(); i++){
+                TCity city = new TCity();
+                city.cityId = bean1.content.get(i).id;
+                city.city = bean1.content.get(i).name;
+                list.add(city);
+            }
             bean.setObject(list);
             bean.setType(DVolleyConstans.METHOD_CHANGE);
-            volleyModel.onMessageResponse(bean,callResult.getResult(),callResult.getMessage(),null);
+            volleyModel.onMessageResponse(bean,
+                                          callResult.getResult(),
+                                          callResult.getMessage(),
+                                          null);
         }
     }
 
@@ -92,6 +99,8 @@ public class CityModel
         protected void myOnResponse(DCallResult callResult)
                 throws Exception
         {
+            JSONObject response = callResult.getResponse();
+            Log.d(TAG, "response=" + response.toString());
             JSONArray   jsonArray = callResult.getContentArray();
             List<TCity> list      = new ArrayList<TCity>();
             List<TCity> city      = new ArrayList<TCity>();

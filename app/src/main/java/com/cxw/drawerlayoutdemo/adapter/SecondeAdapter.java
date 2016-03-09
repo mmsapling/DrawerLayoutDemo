@@ -25,7 +25,7 @@ public class SecondeAdapter extends AbstractBaseAdapter<TCity> {
         ViewHolder holder = null;
         if (convertView == null) {
             holder = new ViewHolder();
-            convertView = View.inflate(context, R.layout.item_city, null);
+            convertView = View.inflate(mContext, R.layout.item_city, null);
             convertView.setTag(holder);
             holder.mContainer = (LinearLayout) convertView.findViewById(R.id.item_container);
             holder.mTvCityName = (TextView) convertView.findViewById(R.id.item_text);

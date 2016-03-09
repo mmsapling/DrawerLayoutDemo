@@ -11,20 +11,20 @@ import java.util.List;
 public class AbstractBaseAdapter<T>
         extends BaseAdapter
 {
-    public Context context;
-    public List<T> list;
+    public Context mContext;
+    public List<T> mDataSource;
 
     public AbstractBaseAdapter(Context context, List<T> list) {
-        this.context = context;
-        this.list = list;
+        this.mContext = context;
+        this.mDataSource = list;
     }
 
     public int getCount() {
-        return list.size();
+        return mDataSource.size();
     }
 
     public T getItem(int position) {
-        return list.get(position);
+        return mDataSource.get(position);
     }
 
     public long getItemId(int position) {
@@ -36,24 +36,24 @@ public class AbstractBaseAdapter<T>
     }
 
     public void setList(List<T> list) {
-        this.list = list;
+        this.mDataSource = list;
     }
 
     public List<T> getList() {
-        return this.list;
+        return this.mDataSource;
     }
 
     public void add(T object) {
-        this.list.add(object);
+        this.mDataSource.add(object);
     }
 
     public void addAllList(Collection<? extends T> collection) {
-        this.list.addAll(collection);
+        this.mDataSource.addAll(collection);
         this.notifyDataSetChanged();
     }
 
     public void clearAllList() {
-        this.list.clear();
+        this.mDataSource.clear();
         this.notifyDataSetChanged();
     }
 }

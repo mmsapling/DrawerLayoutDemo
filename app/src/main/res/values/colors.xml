@@ -7,4 +7,8 @@
     <color name="drawer_background" >#FFFFFF</color>
     <color name="item_bg_pressed">#99000000</color>
     <color name="item_bg_normal">#F9F9F9</color>
+    <color name="red">#ff0000</color>
+    <color name="black">#000000</color>
+    <color name="tab_normal">#33000000</color>
+    <color name="tab_pressed">#ff0000</color>
 </resources>
