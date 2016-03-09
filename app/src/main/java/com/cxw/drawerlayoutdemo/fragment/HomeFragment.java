@@ -20,37 +20,31 @@ public class HomeFragment
     NoScrollListView mHomeListview;
     private ScrollView   mScrollView;
     private List<String> mDatas;
-    private HomeAdapter mHomeAdapter;
+    private HomeAdapter  mHomeAdapter;
 
     @Override
     public View initView() {
         View view = View.inflate(getActivity(), R.layout.pullrefresh_public_scrollview, null);
         mHomeScrollview = (DScrollView) view.findViewById(R.id.home_scrollview);
-        mHomeScrollview.setPullDownEnabled(true);
-        mHomeScrollview.setPullUpEnabled(false);
+        mHomeScrollview.setPullDownEnabled(true); mHomeScrollview.setPullUpEnabled(false);
         mScrollView = mHomeScrollview.getRefreshableView();
         View contentView = View.inflate(getActivity(), R.layout.fragment_home, null);
         mHomeListview = (NoScrollListView) contentView.findViewById(R.id.home_listview);
-        mScrollView.addView(contentView);
-        return view;
+        mScrollView.addView(contentView); return view;
     }
 
 
     @Override
     public void initData() {
-        super.initData();
-        mDatas = new ArrayList<String>();
-        for (int i = 0; i < 100; i++) {
+        super.initData(); mDatas = new ArrayList<String>(); for (int i = 0; i < 100; i++) {
             mDatas.add("内容" + i);
-        }
-        mHomeAdapter = new HomeAdapter(getActivity(), mDatas);
+        } mHomeAdapter = new HomeAdapter(getActivity(), mDatas);
         mHomeListview.setAdapter(mHomeAdapter);
     }
 
     @Override
     public void initListener() {
-        super.initListener();
-        mHomeScrollview.setOnRefreshListener(new DOnRefreshListener() {
+        super.initListener(); mHomeScrollview.setOnRefreshListener(new DOnRefreshListener() {
             @Override
             public void onPullDownToRefresh() {
                 refreshData();
@@ -64,7 +58,6 @@ public class HomeFragment
     }
 
     private void refreshData() {
-        mHomeAdapter.clearAllList();
-        mHomeScrollview.onStopDownRefresh(true);
+        mHomeAdapter.clearAllList(); mHomeScrollview.onStopDownRefresh(true);
     }
 }
